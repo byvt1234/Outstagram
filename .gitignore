@@ -1,0 +1,11 @@
+.agent/
+.idea/
+node_modules/
+
+secret/
+
+Server/00_public/uploads/**/*
+!Server/00_public/uploads/**/
+
+.env
+!.env.example
