@@ -23,6 +23,11 @@ export const config = {
         address: required("HOST_ADDRESS", "localhost"),
         multerUploadDir: required("MULTER_UPLOAD_DIR", "00_public/uploads/posts")
     },
+
+    client: {
+        port: parseInt(required("CLIENT_PORT", 5173)),
+        address: required("CLIENT_ADDRESS", "localhost")
+    },
     
     db: {
         host: required("DB_HOST")

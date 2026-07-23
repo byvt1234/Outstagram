@@ -50,7 +50,7 @@ Base URL: /api
     
     ```json
     {
-      "loginId": "user01",
+      "userId": "user01",
       "password": "password123!"
     }
     ```
@@ -253,8 +253,7 @@ Base URL: /api
     {
       "success": true,
       "data": {
-        "userId": "사용자 식별자",
-        "loginId": "user01",
+        "userId": {"id", "userid"}
         "name": "홍길동",
         "email": "user01@example.com",
         "createdAt": "2026-07-21T10:00:00.000Z",
