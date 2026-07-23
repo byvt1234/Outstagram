@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
-
+import { useNavigate } from "react-router-dom"
 
 export default function Mainpage() {
     const API_URL = "http://localhost:8080/api/posts"
     const token = localStorage.getItem("token")
-    console.log("token:", token)
+
     const [posts, setPosts] = useState([]) 
     const [page, setPage] = useState(1)
     const [size] = useState(10)
@@ -14,12 +14,16 @@ export default function Mainpage() {
 
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
+
+    const navigate = useNavigate()
     const fetchPosts = async () => {
       const params = new URLSearchParams({
+
         page,
         size,
         keyword,
         sort,})
+
         try {
           const response = await fetch(`${API_URL}?${params}`,{headers: {Authorization: `Bearer ${token}`}})
           if (!response.ok) {
@@ -50,8 +54,12 @@ export default function Mainpage() {
           <input type="text" placeholder="검색어를 입력하세요" value={keyword} onChange={(e) => setKeyword(e.target.value)}/>
           <button onClick={() => {
             setPage(1)
-            fetchPosts()}}>검색</button>
+        }}>검색</button>
+        <button onClick={() => navigate('/mypage')}>마이페이지</button>
+        <button onClick={() => navigate('/')}>로그아웃</button>
         </div>
+        
+        <hr />
         <div>
             <p>제목</p>
             <p>작성일시</p>
@@ -61,7 +69,7 @@ export default function Mainpage() {
         <div>
             <ul className="post-list">
               {posts.map((post) => (
-                <li key={post.postId} className="post-item" >
+                <li key={post.postId} className="post-item" onClick={() => navigate(`/post/${post.postId}`)}>
                   <h3>{post.title}</h3>
                   <p>{post.content}</p>
                   <p>작성일 : {post.createdAt.split("T")[0]}</p>
