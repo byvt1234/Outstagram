@@ -16,6 +16,9 @@ export async function createComment(req, res) {
     const postId=req.params.postId
     const user_id = req.id
     const {content}=req.body
+    if(!content){
+         throw new ApiError(403,"403 not content")
+    }
     const user = await userRepository.findById(user_id)
     const data=await commentService.createCommetBypostId(postId,user_id,user.userid,content)
     res.status(201).json({

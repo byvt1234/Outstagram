@@ -17,3 +17,4 @@ router.post("/login", authController.login)
 router.get("/me", isAuth, authController.me)
 
 export default router
+
