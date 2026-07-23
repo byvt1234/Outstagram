@@ -9,6 +9,13 @@ import {currTime} from "./102_utils/time.js";
 import cors from "cors"
 
 const app = express()
+app.use(
+    cors({
+        origin: `http://${config.client.address}:${config.client.port}`,
+        methods:["GET","POST","PUT","DELETE"],
+        allowedHeaders:["Content-Type","Authorization"]
+    })
+)
 
 
 app.use(express.json())
