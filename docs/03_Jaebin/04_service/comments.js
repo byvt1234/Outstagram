@@ -1,7 +1,7 @@
 import { deleteByCommentId, getComment, addComment } from "../05_data/comments.js"
 
 export async function getAll(postId,loginUserId){
-    const datas= (await getComment(postId))
+    const datas= await getComment(postId)
 
     return {comments:datas.map(comment => ({
         commentId: comment._id,
