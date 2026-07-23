@@ -31,5 +31,9 @@ export const config = {
     
     db: {
         host: required("DB_HOST")
-    }
+    },
+    client: {
+        port: parseInt(required("CLIENT_PORT", 5173)),
+        address: required("CLIENT_ADDRESS", "localhost"),
+    },
 }

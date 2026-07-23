@@ -1,6 +1,7 @@
 import * as postService from "../04_service/posts.js"
 import * as bookmarkService from "../04_service/bookmarks.js"
 import {ApiError} from "../102_utils/api/ApiError.js";
+import logger from "../102_utils/log.js";
 
 // 포스트를 작성하는 함수
 export async function createPost(req, res) {
@@ -106,6 +107,15 @@ export async function getPost(req, res) {
     // 사용자가 포스팅을 북마크 했는지 확인
     const bookmarked = await bookmarkService.checkUserBookmarkPostById({ userId, postId: post._id })
 
+    // 조회수 올려주기 [실패해도 그대로 반환해주기]
+    try {
+        await postService.increasePostView({ postId })
+    } catch (error) {
+        logger("/03_controller/posts.js getPost",
+         `error: ${JSON.stringify(error)}`, "ERROR")
+    }
+
+
     // 반환하기
     return res.status(200).json({
         success: true,
@@ -114,8 +124,8 @@ export async function getPost(req, res) {
             title: post.title,
             content: post.content,
             author: {
-                userId: post.authorId,
-                loginId: post.authorUserid
+                id: post.authorId,
+                userid: post.authorUserid
             },
             viewCount: post.viewCount,
             imageUrls: post.imageUrls,

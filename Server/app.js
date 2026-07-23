@@ -9,6 +9,14 @@ import {currTime} from "./102_utils/time.js";
 import cors from "cors"
 
 const app = express()
+app.use(
+    cors({
+        origin: `http://${config.client.address}:${config.client.port}`,
+        methods:["GET","POST","PUT","DELETE"],
+        allowedHeaders:["Content-Type","Authorization"]
+    })
+)
+
 
 app.use(
     cors({
@@ -19,6 +27,13 @@ app.use(
 )
 
 app.use(express.json())
+app.use(
+    cors({
+        origin: `http://${config.client.address}:${config.client.port}`,
+        // methods: ["GET", "POST", "PUT", "DELETE"],
+        // allowedHeaders: ["Content-Type"]
+    })
+)
 app.use("/api", ApiRouter)
 
 morgan.token("currTime", () => {
@@ -41,7 +56,8 @@ app.use(errorHandler)
 connectDB().then(() => {
     app.listen(config.host.port, config.host.address, () => {
         logger("/app.js",
-            `Outstagram Server Activate... [origin=http://${config.host.address}:${config.host.port}]`)
+            `Outstagram Server Activate... [origin=http://${config.host.address}:${config.host.port}]
+[allowed Origin=http://${config.client.address}:${config.client.port}]`)
         console.log("")
     })
 }).catch(console.error)
