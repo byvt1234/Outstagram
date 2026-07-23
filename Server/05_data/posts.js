@@ -194,3 +194,22 @@ export async function updatePost({ postId, title, content, imageUrls }) {
 export async function deleteByPostId({postId, session}) {
     return await Post.findByIdAndDelete(postId).session(session)
 }
+
+/**
+ * count만큼 posts._id의 viewCount를 높여주는 함수
+ * 반환 값으로 post 객체를 그대로 반환한다
+ */
+export async function increasePostView({ postId, count }) {
+    return await Post.findByIdAndUpdate(
+        postId,
+        {
+            $inc: {
+                viewCount: count
+            }
+        },
+        {
+            new: true,
+            runValidators: true
+        }
+    )
+}
